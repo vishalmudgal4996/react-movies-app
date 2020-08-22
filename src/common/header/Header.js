@@ -5,9 +5,11 @@ import "./Header.css";
 class Header extends Component {
   render() {
     return (
-      <div>
-        <Button variant="contained">Login</Button>
-      </div>
+      <header className="app-header">
+        <div className="login-button">
+          <Button variant="contained">Login</Button>
+        </div>
+      </header>
     );
   }
 }
