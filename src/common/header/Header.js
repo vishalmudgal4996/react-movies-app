@@ -47,11 +47,16 @@ class Header extends Component {
   }
 
   openModalHandler = () => {
-    this.setState({ modalIsOpen: true });
+    this.setState({
+      modalIsOpen: true,
+      usernameRequired: "dispNone",
+      value: 0,
+      username: "",
+    });
   };
 
   closeModalHandler = () => {
-    this.setState({ modalIsOpen: false, value: 0 });
+    this.setState({ modalIsOpen: false });
   };
 
   tabChangeHandler = (event, value) => {
