@@ -43,6 +43,8 @@ class Header extends Component {
       value: 0,
       usernameRequired: "dispNone",
       username: "",
+      passwordRequired: "dispNone",
+      password: "",
     };
   }
 
@@ -52,6 +54,8 @@ class Header extends Component {
       usernameRequired: "dispNone",
       value: 0,
       username: "",
+      passwordRequired: "dispNone",
+      password: "",
     });
   };
 
@@ -67,10 +71,18 @@ class Header extends Component {
     this.state.username === ""
       ? this.setState({ usernameRequired: "dispBlock" })
       : this.setState({ usernameRequired: "dispNone" });
+
+    this.state.password === ""
+      ? this.setState({ passwordRequired: "dispBlock" })
+      : this.setState({ passwordRequired: "dispNone" });
   };
 
   inputUsernameChangeHandler = (e) => {
     this.setState({ username: e.target.value });
+  };
+
+  inputPasswordChangeHandler = (e) => {
+    this.setState({ password: e.target.value });
   };
 
   render() {
@@ -117,7 +129,15 @@ class Header extends Component {
               <br />
               <FormControl required>
                 <InputLabel htmlFor="password">Password</InputLabel>
-                <Input id="password" type="password"></Input>
+                <Input
+                  id="password"
+                  type="password"
+                  password={this.state.password}
+                  onChange={this.inputPasswordChangeHandler}
+                ></Input>
+                <FormHelperText className={this.state.passwordRequired}>
+                  <span className="red">required</span>
+                </FormHelperText>
               </FormControl>
               <br />
               <br />
