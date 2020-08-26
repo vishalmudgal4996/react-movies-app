@@ -9,7 +9,9 @@ import moviesData from "./../../common/movieData";
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
+    display: "flex",
+    justifyContent: "space-around",
+    overflow: "hidden",
     backgroundColor: theme.palette.background.paper,
   },
   upcomingMoviesHeading: {
@@ -20,8 +22,12 @@ const styles = (theme) => ({
   },
   gridListUpcomingMovies: {
     flexWrap: "nowrap",
-    transform: "translateZ(0)",
+    transform: "translateX(50)",
     width: "100%",
+  },
+  gridListMain: {
+    cursor: "pointer",
+    transform: "translateZ(0)",
   },
 });
 
@@ -37,11 +43,48 @@ class Home extends Component {
         <GridList cols={5} className={classes.gridListUpcomingMovies}>
           {moviesData.map((movie) => (
             <GridListTile key={movie.id}>
-              <img src={movie.poster_url} alt={movie.title}></img>
+              <img
+                src={movie.poster_url}
+                className="movie-poster"
+                alt={movie.title}
+              ></img>
               <GridListTileBar title={movie.title}></GridListTileBar>
             </GridListTile>
           ))}
         </GridList>
+
+        <div className="flex-container">
+          <div className="left">
+            <GridList
+              cellHeight={350}
+              cols={4}
+              className={classes.gridListMain}
+            >
+              {moviesData.map((movie) => (
+                <GridListTile
+                  key={"grid" + movie.id}
+                  className="released-movie-grid-item"
+                >
+                  <img
+                    src={movie.poster_url}
+                    className="movie-poster"
+                    alt={movie.title}
+                  ></img>
+                  <GridListTileBar
+                    title={movie.title}
+                    subtitle={
+                      <span>
+                        Release Date:{" "}
+                        {new Date(movie.release_date).toDateString()}
+                      </span>
+                    }
+                  ></GridListTileBar>
+                </GridListTile>
+              ))}
+            </GridList>
+          </div>
+          <div className="right"></div>
+        </div>
       </div>
     );
   }
