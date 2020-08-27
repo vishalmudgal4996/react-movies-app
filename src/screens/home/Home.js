@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import Details from "../details/Details";
 import "./Home.css";
+import moviesData from "../../assets/movieData";
 import Header from "../../common/header/Header";
-import moviesData from "./../../common/movieData";
 import genres from "./../../common/genres";
 import artists from "./../../common/artists";
 import { withStyles } from "@material-ui/core/styles";
@@ -70,6 +72,13 @@ class Home extends Component {
     this.setState({ artists: event.target.value });
   };
 
+  movieClickHandler = (movieId) => {
+    ReactDOM.render(
+      <Details movieId={movieId} />,
+      document.getElementById("root")
+    );
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -103,6 +112,7 @@ class Home extends Component {
                 <GridListTile
                   key={"grid" + movie.id}
                   className="released-movie-grid-item"
+                  onClick={() => this.movieClickHandler(movie.id)}
                 >
                   <img
                     src={movie.poster_url}
