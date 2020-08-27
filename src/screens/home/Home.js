@@ -52,6 +52,9 @@ const styles = (theme) => ({
   title: {
     color: theme.palette.primary.light,
   },
+  cardContent: {
+    textAlign: "center",
+  },
 });
 
 class Home extends Component {
@@ -135,7 +138,7 @@ class Home extends Component {
 
           <div className="right">
             <Card>
-              <CardContent>
+              <CardContent className={classes.cardContent}>
                 <FormControl className={classes.formControl}>
                   <Typography className={classes.title} color="textSecondary">
                     FIND MOVIES BY:

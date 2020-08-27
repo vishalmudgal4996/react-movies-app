@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import Header from "../../common/header/Header";
 import moviesData from "../../assets/movieData";
 import Typography from "@material-ui/core/Typography";
 import "./Details.css";
+import Home from "../home/Home";
+import YouTube from "react-youtube";
 
 class Details extends Component {
   constructor() {
@@ -18,11 +21,28 @@ class Details extends Component {
     this.setState({ currentState });
   }
 
+  backToHomeHandler = () => {
+    ReactDOM.render(<Home />, document.getElementById("root"));
+  };
+
   render() {
     let movie = this.state.movie;
+    const opts = {
+      height: "300",
+      width: "700",
+      playerVars: {
+        autoplay: 1,
+      },
+    };
+
     return (
       <div className="detail">
         <Header />
+        <div className="back">
+          <Typography onClick={this.backToHomeHandler}>
+            &#60; Back to Home
+          </Typography>
+        </div>
         <div className="flex-containerDetails">
           <div className="leftDetails">
             <img src={movie.poster_url} alt={movie.title} />
@@ -57,12 +77,22 @@ class Details extends Component {
                 {movie.critics_rating}
               </Typography>
             </div>
-            <div>
+            <div className="marginTop16">
               <Typography>
                 <span className="bold">Plot: </span>
                 <a href={movie.wiki_url}>(Wiki Link)</a>
                 {movie.storyline}
               </Typography>
+            </div>
+            <div className="trailerContainer">
+              <Typography>
+                <span className="bold">Trailer: </span>
+              </Typography>
+              <YouTube
+                videoId={movie.trailer_url.split("?v=")[1]}
+                opts={opts}
+                onReady={this._onReady}
+              ></YouTube>
             </div>
           </div>
           <div className="rightDetails"></div>
