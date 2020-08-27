@@ -168,7 +168,7 @@ let moviesData = [
     duration: 129,
     poster_url:
       "https://upload.wikimedia.org/wikipedia/en/c/cd/Shahid_Poster_%282013%29.jpg",
-    trailer_url: "https://www.youtube.com/watch?v=XiQXmIn7qbI",
+    trailer_url: "https://www.youtube.com/watch?v=2p8LyAte-M8",
     wiki_url: "https://en.wikipedia.org/wiki/Shahid_(film)",
     release_date: "2013-10-18T00:00:00+05:30",
     censor_board_rating: "NR",
@@ -183,7 +183,7 @@ let moviesData = [
         profile_description:
           "Rajkummar Rao, also known as Rajkumar Yadav, is an Indian actor. He has established a career in Hindi cinema and is the recipient of several awards, including a National Film Award, three Filmfare Awards, and an Asia Pacific Screen Award. He is cited in the media as one of the most talented actors of his generation.",
         profile_url:
-          "https://en.wikipedia.org/wiki/Rajkummar_Rao#/media/File:Rajkummar_Rao_World_Premiere_Newton_Zoopalast_Berlinale_2017_02.jpg",
+          "https://upload.wikimedia.org/wikipedia/commons/8/88/Rajkumar_Rao_Filmfare_Glamour_and_Style_Awards_2019_%28cropped%29.jpg",
         wiki_url: "https://en.wikipedia.org/wiki/Rajkummar_Rao",
       },
       {
