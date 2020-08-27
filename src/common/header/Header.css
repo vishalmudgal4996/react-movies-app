@@ -36,6 +36,11 @@
   color: red;
 }
 
+.bookshow-button {
+  float: right;
+  margin-right: 8px;
+}
+
 .login-modal {
   position: absolute;
   top: 50%;
