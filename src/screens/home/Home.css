@@ -39,6 +39,7 @@
 }
 .released-movie-grid-item {
   margin: 15px;
+  cursor: pointer;
 }
 
 @media (max-width: 992px) {
@@ -55,4 +56,3 @@
     margin: 8px;
   }
 }
-
