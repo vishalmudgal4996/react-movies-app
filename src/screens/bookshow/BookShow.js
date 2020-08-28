@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import Header from "../../common/header/Header";
+import Confirmation from "../confirmation/Confirmation";
 import Typography from "@material-ui/core/Typography";
 import "./BookShow.css";
 import Home from "../home/Home";
@@ -77,6 +78,11 @@ class BookShow extends Component {
     this.state.tickets === 0
       ? this.setState({ reqTickets: "dispBlock" })
       : this.setState({ reqTickets: "dispNone" });
+
+    ReactDOM.render(
+      <Confirmation bookingSummary={this.state} />,
+      document.getElementById("root")
+    );
   };
 
   render() {
