@@ -197,6 +197,13 @@ class BookShow extends Component {
                 variant="contained"
                 onClick={this.bookShowButtonHandler}
                 color="primary"
+                disabled={
+                  !this.state.location ||
+                  !this.state.language ||
+                  !this.state.showDate ||
+                  !this.state.showTime ||
+                  !this.state.tickets
+                }
               >
                 BOOK SHOW
               </Button>
