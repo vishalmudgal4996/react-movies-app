@@ -58,7 +58,7 @@ const styles = (theme) => ({
 class Home extends Component {
   constructor() {
     super();
-    this.state = { movieName: "", genres: [], artists: [] };
+    this.state = { movieName: "", genres: [], artists: [], upcomingMovies: [] };
   }
 
   movieNameChangeHandler = (event) => {
@@ -77,6 +77,21 @@ class Home extends Component {
     this.props.history.push("/movie/" + movieId);
   };
 
+  UNSAFE_componentWillMount() {
+    let data = null;
+    let xhr = new XMLHttpRequest();
+    let that = this;
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({ upcomingMovies: JSON.parse(this.responseText).movies });
+      }
+    });
+
+    xhr.open("GET", this.props.baseUrl + "movies?status=PUBLISHED");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.send(data);
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -87,8 +102,8 @@ class Home extends Component {
         </div>
 
         <GridList cols={5} className={classes.gridListUpcomingMovies}>
-          {moviesData.map((movie) => (
-            <GridListTile key={movie.id}>
+          {this.state.upcomingMovies.map((movie) => (
+            <GridListTile key={"upcoming" + movie.id}>
               <img
                 src={movie.poster_url}
                 className="movie-poster"
