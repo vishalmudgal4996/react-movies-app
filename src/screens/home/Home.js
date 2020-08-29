@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import Details from "../details/Details";
 import "./Home.css";
 import moviesData from "../../assets/movieData";
 import Header from "../../common/header/Header";
@@ -76,10 +74,7 @@ class Home extends Component {
   };
 
   movieClickHandler = (movieId) => {
-    ReactDOM.render(
-      <Details movieId={movieId} />,
-      document.getElementById("root")
-    );
+    this.props.history.push("/movie/" + movieId);
   };
 
   render() {
@@ -162,7 +157,6 @@ class Home extends Component {
                     value={this.state.genres}
                     onChange={this.genreSelectHandler}
                   >
-                    <MenuItem value="">None</MenuItem>
                     {genres.map((genre) => (
                       <MenuItem key={genre.id} value={genre.name}>
                         <Checkbox
@@ -184,7 +178,6 @@ class Home extends Component {
                     value={this.state.artists}
                     onChange={this.artistSelectHandler}
                   >
-                    <MenuItem value="">None</MenuItem>
                     {artists.map((artist) => (
                       <MenuItem
                         key={artist.id}

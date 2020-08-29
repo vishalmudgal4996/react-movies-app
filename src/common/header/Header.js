@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import Button from "@material-ui/core/Button";
 import "./Header.css";
-import BookShow from "../../screens/bookshow/BookShow";
 import logo from "../../assets/logo.svg";
 import Modal from "react-modal";
 import Tabs from "@material-ui/core/Tabs";
@@ -13,6 +11,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import PropTypes from "prop-types";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { Link } from "react-router-dom";
 
 const customStyles = {
   content: {
@@ -148,11 +147,6 @@ class Header extends Component {
     this.setState({ contact: e.target.value });
   };
 
-  /* go to bookshow page*/
-  bookShowHandler = () => {
-    ReactDOM.render(<BookShow />, document.getElementById("root"));
-  };
-
   render() {
     return (
       <div>
@@ -165,13 +159,11 @@ class Header extends Component {
           </div>
           {this.props.showBookShowButton === "true" ? (
             <div className="bookshow-button">
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={this.bookShowHandler}
-              >
-                Book Show
-              </Button>
+              <Link to={"/bookshow/" + this.props.id}>
+                <Button variant="contained" color="primary">
+                  Book Show
+                </Button>
+              </Link>
             </div>
           ) : (
             ""

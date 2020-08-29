@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import Header from "../../common/header/Header";
-import Confirmation from "../confirmation/Confirmation";
 import Typography from "@material-ui/core/Typography";
 import "./BookShow.css";
-import Home from "../home/Home";
 import language from "../../common/language";
 import location from "../../common/location";
 import showDate from "../../common/showDate";
@@ -18,6 +15,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { Link } from "react-router-dom";
 
 class BookShow extends Component {
   constructor() {
@@ -37,10 +35,6 @@ class BookShow extends Component {
       reqTickets: "dispNone",
     };
   }
-
-  backToDetailsHandler = () => {
-    ReactDOM.render(<Home />, document.getElementById("root"));
-  };
 
   locationChangeHandler = (event) => {
     this.setState({ location: event.target.value });
@@ -79,10 +73,20 @@ class BookShow extends Component {
       ? this.setState({ reqTickets: "dispBlock" })
       : this.setState({ reqTickets: "dispNone" });
 
-    ReactDOM.render(
-      <Confirmation bookingSummary={this.state} />,
-      document.getElementById("root")
-    );
+    if (
+      this.state.location === "" ||
+      this.state.language === "" ||
+      this.state.showTime === "" ||
+      this.state.showDate === "" ||
+      this.state.tickets === 0
+    ) {
+      return;
+    }
+
+    this.props.history.push({
+      pathname: "/confirm/" + this.props.match.params.id,
+      bookingSummary: this.state,
+    });
   };
 
   render() {
@@ -90,8 +94,10 @@ class BookShow extends Component {
       <div>
         <Header />
         <div className="bookShow">
-          <Typography className="back" onClick={this.backToDetailsHandler}>
-            &#60; Back to Movie Details
+          <Typography className="back">
+            <Link to={"/movie/" + this.props.match.params.id}>
+              &#60; Back to Movie Details
+            </Link>
           </Typography>
           <Card className="cardStyle">
             <CardContent>
@@ -197,13 +203,6 @@ class BookShow extends Component {
                 variant="contained"
                 onClick={this.bookShowButtonHandler}
                 color="primary"
-                disabled={
-                  !this.state.location ||
-                  !this.state.language ||
-                  !this.state.showDate ||
-                  !this.state.showTime ||
-                  !this.state.tickets
-                }
               >
                 BOOK SHOW
               </Button>
