@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./Home.css";
-import moviesData from "../../assets/movieData";
 import Header from "../../common/header/Header";
 import genres from "./../../common/genres";
 import artists from "./../../common/artists";
@@ -59,7 +58,13 @@ const styles = (theme) => ({
 class Home extends Component {
   constructor() {
     super();
-    this.state = { movieName: "", genres: [], artists: [], upcomingMovies: [] };
+    this.state = {
+      movieName: "",
+      genres: [],
+      artists: [],
+      upcomingMovies: [],
+      releasedMovies: [],
+    };
   }
 
   movieNameChangeHandler = (event) => {
@@ -91,6 +96,22 @@ class Home extends Component {
     xhr.open("GET", this.props.baseUrl + "movies?status=PUBLISHED");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(data);
+
+    /* xhr request for released movies */
+    let dataReleased = null;
+    let xhrReleased = new XMLHttpRequest();
+    xhrReleased.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({
+          releasedMovies: JSON.parse(this.responseText).movies,
+        });
+        console.log(JSON.parse(this.responseText));
+      }
+    });
+
+    xhrReleased.open("GET", this.props.baseUrl + "movies?status=RELEASED");
+    xhrReleased.setRequestHeader("Cache-Control", "no-cache");
+    xhrReleased.send(dataReleased);
   }
 
   render() {
@@ -125,9 +146,9 @@ class Home extends Component {
               cols={4}
               className={classes.gridListMain}
             >
-              {moviesData.map((movie) => (
+              {this.state.releasedMovies.map((movie) => (
                 <GridListTile
-                  key={"grid" + movie.id}
+                  key={"released" + movie.id}
                   className="released-movie-grid-item"
                   onClick={() => this.movieClickHandler(movie.id)}
                 >
