@@ -38,6 +38,7 @@ const styles = (theme) => ({
     flexWrap: "nowrap",
     transform: "translateX(50)",
     width: "100%",
+    height: "230px",
   },
   gridListMain: {
     transform: "translateZ(0)",
@@ -103,7 +104,10 @@ class Home extends Component {
 
         <GridList cols={5} className={classes.gridListUpcomingMovies}>
           {this.state.upcomingMovies.map((movie) => (
-            <GridListTile key={"upcoming" + movie.id}>
+            <GridListTile
+              className="gridListTileUpcomingMovies"
+              key={"upcoming" + movie.id}
+            >
               <img
                 src={movie.poster_url}
                 className="movie-poster"
