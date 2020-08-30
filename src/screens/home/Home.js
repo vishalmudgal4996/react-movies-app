@@ -62,8 +62,10 @@ class Home extends Component {
       artists: [],
       upcomingMovies: [],
       releasedMovies: [],
-      genresList: [],
-      artistsList: [],
+      genresList: [{}],
+      artistsList: [{}],
+      releaseDateStart: "",
+      releaseDateEnd: "",
     };
   }
 
@@ -83,14 +85,12 @@ class Home extends Component {
     this.props.history.push("/movie/" + movieId);
   };
 
-  filterApplyHandler = () => {
-    let queryString = "?status=RELEASED";
-    if (this.state.movieName !== "") {
-      queryString += "&title=" + this.state.movieName;
-    }
-    if (this.state.genres.length > 0) {
-      queryString += "&genres=" + this.state.genres.toString();
-    }
+  releaseDateStartHandler = (event) => {
+    this.setState({ releaseDateStart: event.target.value });
+  };
+
+  releaseDateEndHandler = (event) => {
+    this.setState({ releaseDateEnd: event.target.value });
   };
 
   UNSAFE_componentWillMount() {
@@ -154,6 +154,45 @@ class Home extends Component {
     xhrArtists.setRequestHeader("Cache-Control", "no-cache");
     xhrArtists.send(dataArtists);
   }
+
+  filterApplyHandler = () => {
+    let queryString = "?status=RELEASED";
+    if (this.state.movieName !== "") {
+      queryString += "&title=" + this.state.movieName;
+    }
+    if (this.state.genres.length > 0) {
+      queryString += "&genre=" + this.state.genres.toString();
+    }
+    if (this.state.artists.length > 0) {
+      queryString += "&artists=" + this.state.artists.toString();
+    }
+    if (this.state.releaseDateStart !== "") {
+      queryString += "&start_date=" + this.state.releaseDateStart;
+    }
+    if (this.state.releaseDateEnd !== "") {
+      queryString += "&end_date=" + this.state.releaseDateEnd;
+    }
+
+    //xhr for filtered data
+
+    let that = this;
+    let dataFilter = null;
+    let xhrFilter = new XMLHttpRequest();
+    xhrFilter.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({
+          releasedMovies: JSON.parse(this.responseText).movies,
+        });
+      }
+    });
+
+    xhrFilter.open(
+      "GET",
+      this.props.baseUrl + "movies" + encodeURI(queryString)
+    );
+    xhrFilter.setRequestHeader("Cache-Control", "no-cache");
+    xhrFilter.send(dataFilter);
+  };
 
   render() {
     const { classes } = this.props;
@@ -280,20 +319,22 @@ class Home extends Component {
                 </FormControl>
                 <FormControl className={classes.formControl}>
                   <TextField
-                    id="releaseStartDate"
+                    id="releaseDateStart"
                     label="Release Start Date"
                     type="date"
                     defaultValue=""
                     InputLabelProps={{ shrink: true }}
+                    onChange={this.releaseDateStartHandler}
                   ></TextField>
                 </FormControl>
                 <FormControl className={classes.formControl}>
                   <TextField
-                    id="releaseEndDate"
+                    id="releaseDateEnd"
                     label="Release End Date"
                     type="date"
                     defaultValue=""
                     InputLabelProps={{ shrink: true }}
+                    onChange={this.releaseDateEndHandler}
                   ></TextField>
                 </FormControl>
                 <br />
