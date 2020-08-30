@@ -84,6 +84,8 @@ class Home extends Component {
   };
 
   UNSAFE_componentWillMount() {
+    // GET upcoming movies
+
     let data = null;
     let xhr = new XMLHttpRequest();
     let that = this;
@@ -97,7 +99,7 @@ class Home extends Component {
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(data);
 
-    /* xhr request for released movies */
+    /* GET released movies */
     let dataReleased = null;
     let xhrReleased = new XMLHttpRequest();
     xhrReleased.addEventListener("readystatechange", function () {
@@ -105,7 +107,6 @@ class Home extends Component {
         that.setState({
           releasedMovies: JSON.parse(this.responseText).movies,
         });
-        console.log(JSON.parse(this.responseText));
       }
     });
 
@@ -118,7 +119,7 @@ class Home extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Header></Header>
+        <Header baseUrl={this.props.baseUrl}></Header>
         <div className={classes.upcomingMoviesHeading}>
           <span>Upcoming Movies</span>
         </div>
@@ -148,7 +149,7 @@ class Home extends Component {
             >
               {this.state.releasedMovies.map((movie) => (
                 <GridListTile
-                  key={"released" + movie.id}
+                  key={"grid" + movie.id}
                   className="released-movie-grid-item"
                   onClick={() => this.movieClickHandler(movie.id)}
                 >

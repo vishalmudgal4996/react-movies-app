@@ -54,8 +54,9 @@ class Header extends Component {
       email: "",
       registerPasswordRequired: "dispNone",
       registerPassword: "",
-      contactRequired: "dispNone",
-      contact: "",
+      mobileRequired: "dispNone",
+      mobile: "",
+      registrationSuccess: false,
     };
   }
 
@@ -75,8 +76,9 @@ class Header extends Component {
       email: "",
       registerPasswordRequired: "dispNone",
       registerPassword: "",
-      contactRequired: "dispNone",
-      contact: "",
+      mobileRequired: "dispNone",
+      mobile: "",
+      registrationSuccess: false,
     });
   };
 
@@ -122,9 +124,43 @@ class Header extends Component {
     this.state.registerPassword === ""
       ? this.setState({ registerPasswordRequired: "dispBlock" })
       : this.setState({ registerPasswordRequired: "dispNone" });
-    this.state.contact === ""
-      ? this.setState({ contactRequired: "dispBlock" })
-      : this.setState({ contactRequired: "dispNone" });
+    this.state.mobile === ""
+      ? this.setState({ mobileRequired: "dispBlock" })
+      : this.setState({ mobileRequired: "dispNone" });
+
+    if (
+      this.state.email === "" ||
+      this.state.firstname === "" ||
+      this.state.lastname === "" ||
+      this.state.mobile === "" ||
+      this.state.registerPassword === ""
+    ) {
+      return;
+    }
+
+    let dataSignup = JSON.stringify({
+      email_address: this.state.email,
+      first_name: this.state.firstname,
+      last_name: this.state.lastname,
+      mobile_number: this.state.mobile,
+      password: this.state.registerPassword,
+    });
+
+    let xhrSignup = new XMLHttpRequest();
+    let that = this;
+    xhrSignup.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({
+          registrationSuccess: true,
+        });
+        console.log(this.responseText);
+      }
+    });
+
+    xhrSignup.open("POST", this.props.baseUrl + "signup");
+    xhrSignup.setRequestHeader("Content-Type", "application/json");
+    xhrSignup.setRequestHeader("Cache-Control", "no-cache");
+    xhrSignup.send(dataSignup);
   };
 
   inputFirstNameChangeHandler = (e) => {
@@ -143,8 +179,8 @@ class Header extends Component {
     this.setState({ registerPassword: e.target.value });
   };
 
-  inputContactChangeHandler = (e) => {
-    this.setState({ contact: e.target.value });
+  inputmobileChangeHandler = (e) => {
+    this.setState({ mobile: e.target.value });
   };
 
   render() {
@@ -283,17 +319,26 @@ class Header extends Component {
               <br />
               <br />
               <FormControl required>
-                <InputLabel htmlFor="contact">Contact</InputLabel>
+                <InputLabel htmlFor="mobile">Mobile Number</InputLabel>
                 <Input
-                  id="contact"
+                  id="mobile"
                   type="number"
-                  contact={this.state.contact}
-                  onChange={this.inputContactChangeHandler}
+                  mobile={this.state.mobile}
+                  onChange={this.inputmobileChangeHandler}
                 ></Input>
-                <FormHelperText className={this.state.contactRequired}>
+                <FormHelperText className={this.state.mobileRequired}>
                   <span className="red">required</span>
                 </FormHelperText>
               </FormControl>
+              <br />
+              <br />
+              {this.state.registrationSuccess === true && (
+                <FormControl>
+                  <span className="successText">
+                    Registration Successful. Please Login!
+                  </span>
+                </FormControl>
+              )}
               <br />
               <br />
               <Button
