@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
 import Header from "../../common/header/Header";
-import artists from "./../../common/artists";
 import { withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -64,6 +63,7 @@ class Home extends Component {
       upcomingMovies: [],
       releasedMovies: [],
       genresList: [],
+      artistsList: [],
     };
   }
 
@@ -114,7 +114,7 @@ class Home extends Component {
     xhrReleased.setRequestHeader("Cache-Control", "no-cache");
     xhrReleased.send(dataReleased);
 
-    // Get Filters
+    // Get Genres Filters
     let dataGenres = null;
     let xhrGenres = new XMLHttpRequest();
     xhrGenres.addEventListener("readystatechange", function () {
@@ -128,6 +128,21 @@ class Home extends Component {
     xhrGenres.open("GET", this.props.baseUrl + "genres");
     xhrGenres.setRequestHeader("Cache-Control", "no-cache");
     xhrGenres.send(dataGenres);
+
+    // Get Artists Filters
+    let dataArtists = null;
+    let xhrArtists = new XMLHttpRequest();
+    xhrArtists.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({
+          artistsList: JSON.parse(this.responseText).artists,
+        });
+      }
+    });
+
+    xhrArtists.open("GET", this.props.baseUrl + "artists");
+    xhrArtists.setRequestHeader("Cache-Control", "no-cache");
+    xhrArtists.send(dataArtists);
   }
 
   render() {
@@ -234,9 +249,9 @@ class Home extends Component {
                     value={this.state.artists}
                     onChange={this.artistSelectHandler}
                   >
-                    {artists.map((artist) => (
+                    {this.state.artistsList.map((artist) => (
                       <MenuItem
-                        key={artist.id}
+                        key={"artist" + artist.id}
                         value={artist.first_name + " " + artist.last_name}
                       >
                         <Checkbox
