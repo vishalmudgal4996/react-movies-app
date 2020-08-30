@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
 import Header from "../../common/header/Header";
-import genres from "./../../common/genres";
 import artists from "./../../common/artists";
 import { withStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
@@ -64,6 +63,7 @@ class Home extends Component {
       artists: [],
       upcomingMovies: [],
       releasedMovies: [],
+      genresList: [],
     };
   }
 
@@ -84,7 +84,7 @@ class Home extends Component {
   };
 
   UNSAFE_componentWillMount() {
-    // GET upcoming movies
+    // GET Upcoming Movies
 
     let data = null;
     let xhr = new XMLHttpRequest();
@@ -99,7 +99,7 @@ class Home extends Component {
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send(data);
 
-    /* GET released movies */
+    // GET Released Movies
     let dataReleased = null;
     let xhrReleased = new XMLHttpRequest();
     xhrReleased.addEventListener("readystatechange", function () {
@@ -113,6 +113,21 @@ class Home extends Component {
     xhrReleased.open("GET", this.props.baseUrl + "movies?status=RELEASED");
     xhrReleased.setRequestHeader("Cache-Control", "no-cache");
     xhrReleased.send(dataReleased);
+
+    // Get Filters
+    let dataGenres = null;
+    let xhrGenres = new XMLHttpRequest();
+    xhrGenres.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({
+          genresList: JSON.parse(this.responseText).genres,
+        });
+      }
+    });
+
+    xhrGenres.open("GET", this.props.baseUrl + "genres");
+    xhrGenres.setRequestHeader("Cache-Control", "no-cache");
+    xhrGenres.send(dataGenres);
   }
 
   render() {
@@ -149,7 +164,7 @@ class Home extends Component {
             >
               {this.state.releasedMovies.map((movie) => (
                 <GridListTile
-                  key={"grid" + movie.id}
+                  key={"released" + movie.id}
                   className="released-movie-grid-item"
                   onClick={() => this.movieClickHandler(movie.id)}
                 >
@@ -198,12 +213,12 @@ class Home extends Component {
                     value={this.state.genres}
                     onChange={this.genreSelectHandler}
                   >
-                    {genres.map((genre) => (
-                      <MenuItem key={genre.id} value={genre.name}>
+                    {this.state.genresList.map((genre) => (
+                      <MenuItem key={"genre" + genre.id} value={genre.genre}>
                         <Checkbox
-                          checked={this.state.genres.indexOf(genre.name) > -1}
+                          checked={this.state.genres.indexOf(genre.genre) > -1}
                         ></Checkbox>
-                        <ListItemText primary={genre.name}></ListItemText>
+                        <ListItemText primary={genre.genre}></ListItemText>
                       </MenuItem>
                     ))}
                   </Select>
