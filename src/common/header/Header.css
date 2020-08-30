@@ -14,6 +14,10 @@
   background: #ff7f7f;
 }
 
+.password-inp-width {
+  width: 57% !important;
+}
+
 @keyframes app-logo-spin {
   from {
     transform: scaleX(-1);

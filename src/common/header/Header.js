@@ -13,6 +13,11 @@ import PropTypes from "prop-types";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
 
+import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -58,6 +63,8 @@ class Header extends Component {
       mobile: "",
       registrationSuccess: false,
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      showLoginPassword: false,
+      showRegisterPassword: false,
     };
   }
 
@@ -80,6 +87,8 @@ class Header extends Component {
       mobileRequired: "dispNone",
       mobile: "",
       registrationSuccess: false,
+      showLoginPassword: false,
+      showRegisterPassword: false,
     });
   };
 
@@ -142,6 +151,15 @@ class Header extends Component {
 
   inputLoginPasswordChangeHandler = (e) => {
     this.setState({ loginPassword: e.target.value });
+  };
+
+  handleClickShowLoginPassword = () => {
+    let currentState = this.state;
+    this.setState({ showLoginPassword: !currentState.showLoginPassword });
+  };
+
+  handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   /*register handlers */
@@ -218,6 +236,11 @@ class Header extends Component {
 
   inputmobileChangeHandler = (e) => {
     this.setState({ mobile: e.target.value });
+  };
+
+  handleClickShowRegisterPassword = () => {
+    let currentState = this.state;
+    this.setState({ showRegisterPassword: !currentState.showRegisterPassword });
   };
 
   logoutHandler = (e) => {
@@ -299,13 +322,29 @@ class Header extends Component {
               </FormControl>
               <br />
               <br />
-              <FormControl required>
+              <FormControl required className="password-inp-width">
                 <InputLabel htmlFor="loginPassword">Password</InputLabel>
                 <Input
                   id="loginPassword"
-                  type="password"
+                  type={this.state.showLoginPassword ? "text" : "password"}
+                  value={this.state.loginPassword}
                   loginpassword={this.state.loginPassword}
                   onChange={this.inputLoginPasswordChangeHandler}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowLoginPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                      >
+                        {this.state.showLoginPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 ></Input>
                 <FormHelperText className={this.state.loginPasswordRequired}>
                   <span className="red">required</span>
@@ -374,13 +413,29 @@ class Header extends Component {
               </FormControl>
               <br />
               <br />
-              <FormControl required>
+              <FormControl required className="password-inp-width">
                 <InputLabel htmlFor="registerPassword">Password</InputLabel>
                 <Input
                   id="registerPassword"
-                  type="password"
+                  type={this.state.showRegisterPassword ? "text" : "password"}
+                  value={this.state.registerPassword}
                   registerpassword={this.state.registerPassword}
                   onChange={this.inputRegisterPasswordChangeHandler}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={this.handleClickShowRegisterPassword}
+                        onMouseDown={this.handleMouseDownPassword}
+                      >
+                        {this.state.showRegisterPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 ></Input>
                 <FormHelperText className={this.state.registerPasswordRequired}>
                   <span className="red">required</span>
