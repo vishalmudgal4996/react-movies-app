@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Home from "../screens/home/Home";
 import Details from "../screens/details/Details";
-import moviesData from "../assets/movieData";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import BookShow from "../screens/bookshow/BookShow";
 import Confirmation from "../screens/confirmation/Confirmation";
@@ -18,9 +17,7 @@ class Controller extends Component {
           <Route
             exact
             path="/"
-            render={(props) => (
-              <Home {...props} moviesData={moviesData} baseUrl={this.baseUrl} />
-            )}
+            render={(props) => <Home {...props} baseUrl={this.baseUrl} />}
           />
           <Route
             path="/movie/:id"

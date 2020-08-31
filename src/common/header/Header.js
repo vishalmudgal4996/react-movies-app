@@ -205,7 +205,6 @@ class Header extends Component {
         that.setState({
           registrationSuccess: true,
         });
-        console.log(this.responseText);
       }
     });
 
