@@ -59,7 +59,6 @@ class Details extends Component {
         that.setState({
           movie: JSON.parse(this.responseText),
         });
-        console.log(JSON.parse(this.responseText).trailer_url);
       }
     });
 

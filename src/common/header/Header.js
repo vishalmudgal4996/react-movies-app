@@ -12,7 +12,6 @@ import Input from "@material-ui/core/Input";
 import PropTypes from "prop-types";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { Link } from "react-router-dom";
-
 import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Visibility from "@material-ui/icons/Visibility";
@@ -125,11 +124,9 @@ class Header extends Component {
           "access-token",
           xhrLogin.getResponseHeader("access-token")
         );
-
         that.setState({
           loggedIn: true,
         });
-
         that.closeModalHandler();
       }
     });
