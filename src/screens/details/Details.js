@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import Header from "../../common/header/Header";
-import moviesData from "../../assets/movieData";
 import Typography from "@material-ui/core/Typography";
 import "./Details.css";
-import YouTube from "react-youtube";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Link } from "react-router-dom";
+import ReactPlayer from "react-player";
 
 class Details extends Component {
   constructor() {
     super();
     this.state = {
-      movie: {},
+      movie: {
+        genres: [],
+        trailer_url: "",
+        artists: [],
+      },
       starIcons: [
         {
           id: 1,
@@ -45,12 +48,27 @@ class Details extends Component {
     };
   }
 
-  componentWillMount() {
-    let currentState = this.state;
-    currentState.movie = moviesData.filter((mov) => {
-      return mov.id === this.props.match.params.id;
-    })[0];
-    this.setState({ currentState });
+  UNSAFE_componentWillMount() {
+    //Get a Movie
+
+    let that = this;
+    let dataMovie = null;
+    let xhrMovie = new XMLHttpRequest();
+    xhrMovie.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        that.setState({
+          movie: JSON.parse(this.responseText),
+        });
+        console.log(JSON.parse(this.responseText).trailer_url);
+      }
+    });
+
+    xhrMovie.open(
+      "GET",
+      this.props.baseUrl + "movies/" + this.props.match.params.id
+    );
+    xhrMovie.setRequestHeader("Cache-Control", "no-cache");
+    xhrMovie.send(dataMovie);
   }
 
   artistClickHandler = (url) => {
@@ -73,13 +91,8 @@ class Details extends Component {
 
   render() {
     let movie = this.state.movie;
-    const opts = {
-      height: "300",
-      width: "700",
-      playerVars: {
-        autoplay: 1,
-      },
-    };
+    let videoId = movie.trailer_url.split("?v=")[1];
+    let url = "https://www.youtube.com/watch?v=" + videoId;
 
     return (
       <div className="detail">
@@ -138,11 +151,14 @@ class Details extends Component {
               <Typography>
                 <span className="bold">Trailer: </span>
               </Typography>
-              <YouTube
-                videoId={movie.trailer_url.split("?v=")[1]}
-                opts={opts}
-                onReady={this._onReady}
-              ></YouTube>
+              <ReactPlayer
+                url={url}
+                controls
+                playbackRate={2}
+                width="896px"
+                height="504px"
+                playing={true}
+              />
             </div>
           </div>
           <div className="rightDetails">

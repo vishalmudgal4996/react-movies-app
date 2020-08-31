@@ -4,16 +4,12 @@
 }
 
 .back {
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .bookShow {
   text-align: center;
   margin-top: 16px;
-}
-
-.back {
-  cursor: pointer;
 }
 
 .cardStyle {
