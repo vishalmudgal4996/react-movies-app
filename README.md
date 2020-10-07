@@ -1,3 +1,11 @@
+Ui Screens:
+![](movie_app_screens/homepage.png)
+![](movie_app_screens/applyfilter.png)
+![](movie_app_screens/formtabs.png)
+![](movie_app_screens/moviedetails.png)
+![](movie_app_screens/bookshow.png)
+![](movie_app_screens/bookingsummary.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
